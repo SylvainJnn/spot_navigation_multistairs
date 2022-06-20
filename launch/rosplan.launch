@@ -1,0 +1,8 @@
+<launch>
+
+
+<include file=$"$(find spot_bringup)/launch/base.launch"/>
+<include file="$(find navigation_2d_spot)/launch/plan_navigation.launch"/>
+<node pkg="rviz" type="rviz" name="rviz"/>
+
+</launch>
