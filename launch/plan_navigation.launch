@@ -1,0 +1,48 @@
+<launch>
+
+    <!-- ROSPlan turtlebot3 demo with ROSPlan -->
+   <!-- <arg name="map_file" default="$(find navigation_2d_spot)/maps/map.yaml"/>-->
+	<arg name="map_file" default="$(find navigation_2d_spot)/maps/robotarium/robotarium_16_06.yaml"/>
+    <!-- Launch navigation -->
+    <include file="$(find navigation_2d_spot)/launch/navigate.launch" >
+    </include>
+    
+
+    <!-- do need this (knowladge base)-->
+    <include file="$(find rosplan_interface_mapping)/launch/rosplan_roadmap_server.launch" />
+ 
+    <!-- upload waypoints (dictionary, id:coordinates) to param server from yaml file -->
+    <rosparam command="load" file="$(find navigation_2d_spot)/config/waypoints.yaml"/>
+
+    <!-- ROSPlan -->
+    <include file="$(find rosplan_planning_system)/launch/interfaced_planning_system.launch" >
+        <arg name="domain_path" value="$(find navigation_2d_spot)/common/domain_spot.pddl" />
+        <!-- load a particular initial state into KB at startup (optional) -->
+        <!-- we leave it empty because in this demo we use a bash script to upload information to KB, not a pddl problem -->
+        <arg name="problem_path" value="" />
+        <!-- automatically generated pddl problem will be created here -->
+        <arg name="autom_gen_problem_path" value="$(find navigation_2d_spot)/common/problem.pddl" />
+        <!-- planner will produce output plan and write to this location -->
+        <arg name="data_path" value="$(find navigation_2d_spot)/common/" />
+    </include>
+
+    <!-- rosplan move base action interface, makes link between rosplan dispatcher and hardware -->
+    <node pkg="rosplan_interface_movebase" type="rpmovebase" name="rosplan_interface_movebase" respawn="false" output="screen">
+        <param name="knowledge_base" value="rosplan_knowledge_base" />
+        <param name="action_server" value="/move_base" />
+        <param name="pddl_action_name" value="goto_waypoint" />
+        <param name="action_dispatch_topic" value="/rosplan_plan_dispatcher/action_dispatch" />
+        <param name="action_feedback_topic" value="/rosplan_plan_dispatcher/action_feedback" />
+    </node>
+  
+    <!-- Node for dynamically reconfigure service -->
+    <node pkg="navigation_2d_spot" type="dynamic_reconfiguration.py" name="dynamic_reconfiguration" output="screen">
+	
+    </node>
+
+    <!-- Node to dynamically reconfigure -->
+    <node pkg="navigation_2d_spot" type="update_goal_tolerance.py" name="update_goal_tolerance_using_param" output="screen">
+	
+    </node>
+
+</launch>
