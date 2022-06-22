@@ -18,6 +18,7 @@ from diagnostic_msgs.msg import KeyValue
 from rosplan_interface_mapping.srv import *
 from rosplan_dispatch_msgs.srv import *
 
+from std_msgs.msg import String, StringResponse
 
 def create_plan(new_path):
     """Sends plan of waypoints to replan_using_a_new_plan service as a client
@@ -66,6 +67,21 @@ def create_new_waypoint(pose, name):
         return resp1
     except rospy.ServiceException as e:
         rospy.loginfo("Plan : New waypoint could not be added. Service call failed: %s"%e)
+
+
+
+
+#my new service 
+
+def send_wp_for_plan(req):
+    create_plan(req)
+    return(StringResponse("done"))
+
+def wp_plan_server():
+    rospy.init_node('wp_plan_server')
+    my_service = rospy.Service('wp_plan', String, send_wp_for_plan)
+    print("Working")
+    rospy.spin()
 
 
 if __name__=="__main__":
