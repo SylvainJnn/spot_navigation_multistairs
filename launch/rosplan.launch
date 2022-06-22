@@ -3,5 +3,6 @@
         <include file="$(find spot_bringup)/launch/base.launch"/>
         <include file="$(find spot_navigation_multistairs)/launch/plan_navigation.launch"/>
         <node pkg="rviz" type="rviz" name="rviz" args="-d $(find spot_navigation_multistairs)/rviz/rosplan.rviz" required="true" output="screen"/>
+        <node pkg="spot_navigation_multistairs" type="init_spot.py" name="init_spot" output="screen"/>
 
 </launch>
