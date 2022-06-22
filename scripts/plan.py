@@ -83,6 +83,6 @@ if __name__=="__main__":
     pose[0][1] = 1   
     create_new_waypoint(pose, "wp3") #adding waypoint
     """
-
-    create_plan("home")
+    path = rospy.get_param("path")
+    create_plan(path)
 

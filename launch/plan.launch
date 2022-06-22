@@ -1,0 +1,9 @@
+<launch>
+
+    <arg name="path" default="home"/>
+    <node> 
+        <pkg="spot_navigation_multistairs" type="init_spot.py" name="init_spot" output="screen">
+    </node>
+    <param name="path" value="$(arg path)" />
+
+</launch>
