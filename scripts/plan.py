@@ -39,6 +39,7 @@ def create_plan(new_path):
         rospy.loginfo("Plan : New could not be added. Service call failed: %s"%e)
         print("Service call failed: %s"%e)
 
+#I am nearly sure this should be deleted
 def create_new_waypoint(pose, name):
     """Creates new waypoint for ROSplan
 

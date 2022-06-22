@@ -63,13 +63,14 @@ class waypoints_manager:
         except rospy.ServiceException as e:
             print ("Service call failed: %s"%e)
         
-    def create_a_new_waypoint_robot_position(self):#create a new waypoint on robot current position
+    def create_a_new_waypoint_robot_position(self):  #create a new waypoint on robot current position
         rospy.wait_for_service('/rosplan_roadmap_server/add_waypoint')  #wait for the service to be availible before adding a new waypoint
         pose = self.get_current_robot_pose_from_tf_listener()
 
         #to handle the name, for the moment let's say the program create newname different from the waypoints.yaml file
         #--> after let's make the program read that file and see which what's the new name
-        new_waypoint_name = "wp10" + str(self.waypoint_counter)
+        new_waypoint_name = "wp" + str(100 + self.waypoint_counter)#wp10X
 
         self.create_a_new_waypoint(pose, new_waypoint_name)
+        self.waypoint_counter += 1                                      #increment the variable
 
