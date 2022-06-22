@@ -71,17 +71,17 @@ def create_new_waypoint(pose, name):
 
 
 
-#my new service 
+# #my new service 
 
-def send_wp_for_plan(req):
-    create_plan(req)
-    return(StringResponse("done"))
+# def send_wp_for_plan(req):
+#     create_plan(req)
+#     return(StringResponse("done"))
 
-def wp_plan_server():
-    rospy.init_node('wp_plan_server')
-    my_service = rospy.Service('wp_plan', String, send_wp_for_plan)
-    print("Working")
-    rospy.spin()
+# def wp_plan_server():
+#     rospy.init_node('wp_plan_server')
+#     my_service = rospy.Service('wp_plan', String, send_wp_for_plan)
+#     print("Working")
+#     rospy.spin()
 
 
 if __name__=="__main__":
