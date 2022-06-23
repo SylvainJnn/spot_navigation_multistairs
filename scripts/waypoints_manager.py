@@ -24,12 +24,6 @@ class waypoints_manager:
         self.waypoint_counter = 0       #count the number of waypoints added
         
         self.nb = new_nb
-        rospy.wait_for_service('/rosplan_knowledge_base/update_array')
-        rospy.wait_for_service('/rosplan_problem_interface/problem_generation_server')
-        rospy.wait_for_service('/rosplan_planner_interface/planning_server')
-        rospy.wait_for_service('/rosplan_parsing_interface/parse_plan')
-        rospy.wait_for_service('/rosplan_plan_dispatcher/dispatch_plan')
-        #rospy.spin()
 
     def get_current_robot_pose_from_tf_listener(self):#from main function in replan.py
         print("get a poser from tf listener")
