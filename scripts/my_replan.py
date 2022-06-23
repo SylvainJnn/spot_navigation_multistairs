@@ -84,7 +84,6 @@ def setPose(pose):
         # Add waypoint using service 
         add_waypoint = rospy.ServiceProxy('/rosplan_roadmap_server/add_waypoint', AddWaypoint)
         rospy.loginfo("Replan : Adding new home waypoint [ %s %s %s ] "%(round(pose[0][0], 2), round(pose[0][1], 2), pose[0][2]))
-        print("new connection")
         resp1 = add_waypoint(waypoint)
         return resp1
     except rospy.ServiceException as e:
@@ -239,7 +238,6 @@ def newPlan(req):
 
 
 def node_init():
-    print("start")
     rospy.init_node('replan') 
     listener = tf.TransformListener()
     listener.waitForTransform('/map', '/base_link',rospy.Time(), rospy.Duration(4.0))
@@ -249,8 +247,6 @@ def node_init():
     rospy.wait_for_service('/rosplan_planner_interface/planning_server')
     rospy.wait_for_service('/rosplan_parsing_interface/parse_plan')
     rospy.wait_for_service('/rosplan_plan_dispatcher/dispatch_plan')
-    rospy.sleep(3)
-    print("1")
 
     rospy.loginfo("Replan : All rosplan services accounted for")
     
@@ -261,19 +257,10 @@ def node_init():
         print('Fail')
         exit()
     # Set this pose as new home waypoint
-    rospy.sleep(3)
-
-    print("2")
     setPose(pose)
-    rospy.sleep(3)
-    print("2.5")
-    rospy.sleep(3)
 
     s = rospy.Service('replan_using_a_new_plan', CreatePath, newPlan)
-    rospy.sleep(3)
-
-    print("3")
-    rospy.spin()
+    #rospy.spin()
 
 if __name__=="__main__":
     node_init()
