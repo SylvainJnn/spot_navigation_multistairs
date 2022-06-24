@@ -4,7 +4,7 @@ import rospy
 import rosservice
 
 import tf
-import time
+import yaml_manager
 from std_srvs.srv import Empty
 from rosplan_knowledge_msgs.msg import *
 from rosplan_knowledge_msgs.srv import *
@@ -25,7 +25,7 @@ class waypoints_manager:
         
         self.nb = new_nb
 
-    def get_current_robot_pose_from_tf_listener(self):#from main function in replan.py
+    def get_current_robot_pose_from_tf_listener(self):#from main function in replan.py #it take the robot pose form tf listener and return it 
         print("get a poser from tf listener")
         listener = tf.TransformListener()
         listener.waitForTransform('/map', '/base_link',rospy.Time(), rospy.Duration(4.0))
@@ -38,7 +38,7 @@ class waypoints_manager:
             exit()
         
 
-    def create_a_new_waypoint(self, pose, pose_name):# setPose function from replan.py
+    def create_a_new_waypoint(self, pose, pose_name):# setPose function from replan.py #//later do not tkae robot current pose but a position the robot see !
         # we do not want to remove anywaypoints // I think just by adding a waypoints with the same name, it removes that waypoint
         # # Old waypoint 
         # old_waypoint = RemoveWaypointRequest()
@@ -67,14 +67,16 @@ class waypoints_manager:
         
     def create_a_new_waypoint_robot_position(self):  #create a new waypoint on robot current position
         rospy.wait_for_service('/rosplan_roadmap_server/add_waypoint')  #wait for the service to be availible before adding a new waypoint
-        pose = self.get_current_robot_pose_from_tf_listener()
+        pose = self.get_current_robot_pose_from_tf_listener()           #get robot pose
 
         #to handle the name, for the moment let's say the program create newname different from the waypoints.yaml file
         #--> after let's make the program read that file and see which what's the new name
         #new_waypoint_name = "wp" + str(100) + str(self.waypoint_counter)#wp10X
-        new_waypoint_name = "wp" + str(self.nb)
+        new_waypoint_name = "wp" + str(self.nb)                         #give the waypoint name 
 
-        self.create_a_new_waypoint(pose, new_waypoint_name)
+        self.create_a_new_waypoint(pose, new_waypoint_name)             #create the waypoint ins Rosplan
+        yaml_manager.add_waypoint_to_yaml_file(pose, new_waypoint_name)#add the waypoint in yaml file
+        #load the new waypoint to connect it : load_edges.bash
         self.waypoint_counter = self.waypoint_counter + 1                                      #increment the varile
         
 

@@ -3,7 +3,7 @@
 """ Client class to send all waypoints which should be visited. Method to add waypoints to ROSPlan.
 
 """
-
+#not used yet 
 from __future__ import print_function
 
 import sys 
