@@ -257,9 +257,9 @@ def node_init():
         print('Fail')
         exit()
     # Set this pose as new home waypoint
-    name = "A"
+    name = "B"
     setPose(pose, name)
-    yaml_manager.add_waypoint_to_yaml_file(name, pose)
+    yaml_manager.add_waypoint_to_yaml_file(pose, "wp" + name)
 
     s = rospy.Service('replan_using_a_new_plan', CreatePath, newPlan)
     #rospy.spin()
