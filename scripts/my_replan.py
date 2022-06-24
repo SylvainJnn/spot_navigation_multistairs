@@ -25,7 +25,7 @@ from rosplan_interface_mapping.srv import *
 from rosplan_dispatch_msgs.srv import *
 
 from navigation_2d_spot.srv import CreatePath, CreatePathResponse
-
+import yaml_manager
 
 query = []
 
@@ -59,19 +59,19 @@ https://kcl-planning.github.io/ROSPlan//documentation/knowledge/03_KnowledgeItem
 """
 
 
-def setPose(pose):
+def setPose(pose, new_wp_name):
     """ Set the current location as a home location 
 
     Args:
         pose (StampedPose): Current pose of robot in map frame 
 
     """
-    # Old waypoint 
-    old_waypoint = RemoveWaypointRequest()
-    old_waypoint.id = 'home'
-    # New home waypoint
+    # # Old waypoint 
+    # old_waypoint = RemoveWaypointRequest()
+    # old_waypoint.id = 'home'
+    # # New home waypoint
     waypoint = AddWaypointRequest()
-    waypoint.id = 'home'
+    waypoint.id = "wp" + new_wp_name
     waypoint.waypoint.pose.position.x = pose[0][0]
     waypoint.waypoint.pose.position.y = pose[0][1]
     waypoint.waypoint.pose.position.z = pose[0][2]
@@ -257,7 +257,9 @@ def node_init():
         print('Fail')
         exit()
     # Set this pose as new home waypoint
-    setPose(pose)
+    name = "A"
+    setPose(pose, name)
+    yaml_manager.add_waypoint_to_yaml_file(name, pose)
 
     s = rospy.Service('replan_using_a_new_plan', CreatePath, newPlan)
     #rospy.spin()
