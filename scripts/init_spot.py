@@ -24,7 +24,7 @@ def initialise_spot():
     call_services('/spot/claim')
     call_services('/spot/power_on')
     call_services('/spot/stand')
+    print("Initialisation is over")
 
 if __name__ == '__main__':
-
     initialise_spot()
