@@ -71,7 +71,7 @@ def setPose(pose, new_wp_name):
     # old_waypoint.id = 'home'
     # # New home waypoint
     waypoint = AddWaypointRequest()
-    waypoint.id = "wp" + new_wp_name
+    waypoint.id = new_wp_name
     waypoint.waypoint.pose.position.x = pose[0][0]
     waypoint.waypoint.pose.position.y = pose[0][1]
     waypoint.waypoint.pose.position.z = pose[0][2]
@@ -257,12 +257,25 @@ def node_init():
         print('Fail')
         exit()
     # Set this pose as new home waypoint
-    name = "B"
+    name = "wpB"
+    name = "home" #for the moment keep this one // the 
     setPose(pose, name)
-    yaml_manager.add_waypoint_to_yaml_file(pose, "wp" + name)
+    yaml_manager.add_waypoint_to_yaml_file(pose, name)
 
     s = rospy.Service('replan_using_a_new_plan', CreatePath, newPlan)
-    #rospy.spin()
+    #rospy.spin()#reput the  the spin to call plan.py ? 
+
+"""
+either:
+    call Karolina's code
+    Either we creagte mine and we have to change a few name
+        setpose --> set home pose()
+        let the rospy.spin()
+        
+
+"""
 
 if __name__=="__main__":
     node_init()
+
+

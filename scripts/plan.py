@@ -21,7 +21,7 @@ from rosplan_dispatch_msgs.srv import *
 from std_msgs.msg import String, StringResponse
 
 
-#call the service in replan to create the path and make the robot move
+#call the service in replan to create the path and make the robot move // need to update that because it does not work with a whole path but only with the last one ???
 def create_plan(new_path):
     """Sends plan of waypoints to replan_using_a_new_plan service as a client
 
