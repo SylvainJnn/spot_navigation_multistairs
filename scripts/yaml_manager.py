@@ -32,7 +32,7 @@ def convert_to_yaml(waypoint_dictionary):
     return final_string
 
 def add_waypoint_to_yaml_file(pose, new_wp_name):
-    waypoint_file = "/root/catkin_ws/src/navigation_2d_spot/config/waypoints_test.yaml"
+    waypoint_file = "/root/catkin_ws/src/spot_navigation_multistairs/config/waypoints_test.yaml"
     print(pose)
     new_wp_pose = [pose[0][0], pose[0][1], pose[0][2]]#x,w,yaw, in fact yaw we can put 0, it does not matter (yet)
     waypoint_dictionary = open_yaml(waypoint_file)

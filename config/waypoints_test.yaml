@@ -1,32 +1,13 @@
-rosplan_demo_waypoints:
-    home:
-    - 0.0
-    - 0.0
-    - 0.0
+rosplan_demo_waypoints:  # Has to be named rosplan_demo_waypoints
+    # waypoints reference frame
     waypoint_frameid: map
-    wp1:
-    - 2.0
-    - 0.0
-    - 0.0
-    wp2:
-    - 2.0
-    - -2.0
-    - 0.0
-    wpstyle:
-    - -1
-    - -1
-    - 0
-  rosplan_waypoints_goal_tolerance:
-    home:
-    - 0.01
-    - 6.32
-    wp1:
-    - 0.01
-    - 3.62
-    wp2:
-    - 0.01
-    - 3.62
-    wpstyle:
-    - 0.01
-    - 3.62
-  
+
+    # waypoint 2D coordinates: x, y, theta
+    home: [0.0, 0.0, 0.0]
+    wp1: [0.0, 0.0, 0.0]
+    wp2: [-2.0, 2.0, 0.0]
+
+rosplan_waypoints_goal_tolerance:
+    home: [0.01 , 6.32]
+    wp1: [0.01 , 3.62]   # xy_goal_tolerance , yaw_goal_tolerance 
+    wp2: [0.01 , 3.62]
