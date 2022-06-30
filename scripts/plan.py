@@ -91,16 +91,16 @@ if __name__=="__main__":
     rospy.init_node('plan') 
     # listener = tf.TransformListener()
     # listener.waitForTransform('/map', '/base_link', rospy.Time(), rospy.Duration(4.0))
-    """"    
-    try:
-        pose = listener.lookupTransform('/map', '/base_link', rospy.Time(0))
-    except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-        exit()
+    # """"    
+    # try:
+    #     pose = listener.lookupTransform('/map', '/base_link', rospy.Time(0))
+    # except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
+    #     exit()
 
-    pose[0][0]= 0
-    pose[0][1] = 1   
-    create_new_waypoint(pose, "wp3") #adding waypoint
-    """
+    # pose[0][0]= 0
+    # pose[0][1] = 1   
+    # create_new_waypoint(pose, "wp3") #adding waypoint
+    # """
     path = rospy.get_param("path")
     create_plan(path) 
     print("this is path\n",path)

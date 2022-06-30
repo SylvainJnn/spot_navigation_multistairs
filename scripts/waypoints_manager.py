@@ -114,6 +114,9 @@ class waypoints_manager:
         #load the new waypoint to connect it : load_edges.bash #right now it deleteds the new home because it is not written in the yaml file // call this also when create new home ? // or get rd of home ? 
         self.waypoint_counter = self.waypoint_counter + 1                                      #increment the varile
 
+    def create_waypoint_stairs(self):
+        None
+
 
 if __name__ == '__main__':
     #rospy.init_node('test_node__waypoints_create')
