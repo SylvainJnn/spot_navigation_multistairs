@@ -33,7 +33,9 @@ def convert_to_yaml(waypoint_dictionary):   #convert the dictionary to a string 
 
 def add_waypoint_to_yaml_file(pose, new_wp_name):#add the waypoint in the yaml file
     waypoint_file = "/root/catkin_ws/src/spot_navigation_multistairs/config/waypoints_test.yaml" #we want to write in this waypoint // change that with because later we want to work with multiple maps
-    new_wp_pose = [pose[0][0], pose[0][1], pose[0][2]]#x,w,yaw, in fact yaw we can put 0, it does not matter (yet)
+    new_wp_pose = [ pose[0][0], 
+                    pose[0][1], 
+                    pose[0][2]]     #x,w,yaw, in fact yaw we can put 0, it does not matter (yet)
     waypoint_dictionary = open_yaml(waypoint_file)
     waypoint_dictionary = add_waypoint_to_yaml_dictionary(waypoint_dictionary, new_wp_name, new_wp_pose)
     waypoint_yaml = convert_to_yaml(waypoint_dictionary)

@@ -75,3 +75,9 @@ class waypoints_manager:
         self.waypoint_counter = self.waypoint_counter + 1                                      #increment the varile
         
 
+if __name__ == '__main__':
+    #rospy.init_node('test_node__waypoints_create')
+    print("start creating")
+    new_wp = waypoints_manager("G")#take off this -> hard coded 
+    print("creating")
+    new_wp.create_a_new_waypoint_robot_position()

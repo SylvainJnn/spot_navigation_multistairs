@@ -16,6 +16,6 @@ How:
     give a path:
         You first need to run replan.py to give gim a home position (starting position)
         Run plan.py to give the waypoints to go.
-        to create a new waypoint, run test.py which call waypoints_manager.py, this file as a class which create a new waypoint on the robot current pose (it will also save it in yaml file)
+        to create a new waypoint, run waypoints_manager.py which call waypoints_manager class, this file as a class which create a new waypoint on the robot current pose (it will also save it in yaml file)
         to load it, call load_edges.bash
         
