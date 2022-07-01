@@ -25,7 +25,7 @@ class stairs_mangager:
             print("Service call failed: %s" %e)
             print(service_name, "error") 
 
-    def set_stair_mode(service_name, state):
+    def set_stair_mode(self, service_name, state):
         rospy.wait_for_service(service_name)    
         try:
             order = rospy.ServiceProxy(service_name, SetBool)
@@ -38,12 +38,12 @@ class stairs_mangager:
             print(service_name, "error") 
 
     #call the different services to make spot availible for navigation
-    def pass_to_stair_mode():
-        set_stair_mode("/spot/stair_mode", True) #/spot/stairs (??)
+    def pass_to_stair_mode(self):
+        self.set_stair_mode("/spot/stair_mode", True) #/spot/stairs (??)
         None
 
-    def pass_to_normal_mode():
-        set_stair_mode("/spot/stair_mode", False) 
+    def pass_to_normal_mode(self):
+        self.set_stair_mode("/spot/stair_mode", False) 
         None
 
     def allign_stair(self):
@@ -54,4 +54,10 @@ class stairs_mangager:
 
 
 if __name__ == '__main__':
+    yo = stairs_mangager()
+    print("start")
+    yo.pass_to_stair_mode()
+    rospy.sleep(5)
+    yo.pass_to_stair_mode()
+    print("over")
     None
