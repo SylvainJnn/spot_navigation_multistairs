@@ -75,9 +75,10 @@ class waypoints_manager:
         waypoint.waypoint.pose.orientation.y = pose[1][1]
         waypoint.waypoint.pose.orientation.z = pose[1][2]
         waypoint.waypoint.pose.orientation.w = pose[1][3]
-
+        waypoint.connecting_distance = 10 # waht is it exactly ? without it is does not connect
+        
         print("the name is :", waypoint.id)    
-        #waypoint.connecting_distance = 10 #?????
+        
         try:
             # Add waypoint using service 
             add_waypoint = rospy.ServiceProxy('/rosplan_roadmap_server/add_waypoint', AddWaypoint)
@@ -88,6 +89,11 @@ class waypoints_manager:
             print ("Service call failed: %s"%e)
     
     def delete_waypoint(self, waypoint_name):#dete a waypoint using RemoveWaypointRequest() object and using /rosplan_roadmap_server/"delte somthing I guess" service
+        #remove waypoint service :
+        # string id
+        # ---
+        #     
+
         None
 
     def create_a_new_waypoint_robot_position(self):  #create a new waypoint on robot current position
@@ -108,8 +114,8 @@ class waypoints_manager:
         pose = self.get_pose_in_font_of()
 
         new_waypoint_name = "wp" + str(self.nb)                         #give the waypoint name 
-
-        self.create_waypoint(pose, new_waypoint_name)             #create the waypoint ins Rosplan
+ 
+        self.create_a_new_waypoint(pose, new_waypoint_name)             #create the waypoint ins Rosplan
         yaml_manager.add_waypoint_to_yaml_file(pose, new_waypoint_name)#add the waypoint in yaml file
         #load the new waypoint to connect it : load_edges.bash #right now it deleteds the new home because it is not written in the yaml file // call this also when create new home ? // or get rd of home ? 
         self.waypoint_counter = self.waypoint_counter + 1                                      #increment the varile
@@ -121,7 +127,6 @@ class waypoints_manager:
 if __name__ == '__main__':
     #rospy.init_node('test_node__waypoints_create')
     print("start creating")
-    new_wp = waypoints_manager("far_B")#take off this -> hard coded 
+    new_wp = waypoints_manager("G")#take off this -> hard coded 
     print("creating")
-    new_wp.create_a_new_waypoint_in_front_of()
-    #new_wp.create_a_new_waypoint_robot_position()
+    new_wp.create_a_new_waypoint_robot_position()
