@@ -10,7 +10,7 @@
 
     <!-- do need this (knowladge base)-->
     <include file="$(find rosplan_interface_mapping)/launch/rosplan_roadmap_server.launch" >
-        <param name="wp_namespace" value="rosplan_waypuntos" />
+        <param name="wp_namespace" value="rosplan_demo_waypoints" />
 
     </include>
  
