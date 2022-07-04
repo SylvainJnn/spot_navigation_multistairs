@@ -1,4 +1,4 @@
-rosplan_demo_waypoints:
+rosplan_waypuntos:
     waypoint_frameid: map
     home: [0.22996230442059445, 4.847318911974817, 0.0005454411783606949]
     wp1: [0.0, 0.0, -0.0]
