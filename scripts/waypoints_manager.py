@@ -41,6 +41,10 @@ class waypoints_manager:
             print('Fail')
             exit()
 
+    def get_waypoint_position(self): #get waypoints position in robot's frame
+        waypoint_position = np.array([2.0,0.0])   #x,y object position, we put in at 2 m in front of the robot
+        return(waypoint_position) #for the moment just return an object 2m in front of the robot
+
     def get_pose_in_font_of(self):
         robot_pose = self.get_current_robot_pose_from_tf_listener()#get robot pose
         waypoint_pose = robot_pose                                 #for after we need the same format as robot_pose from tf.lsitener, but x and y are going to be changed
@@ -48,7 +52,7 @@ class waypoints_manager:
         yaw = self.get_yaw_from_pose(robot_pose)                                             #robot's yaw from pose
         
         #change base
-        waypoint_position_robot = np.array([2.0,0.0])   #x,y object position, we put in at 2 m in front of the robot
+        waypoint_position_robot = self.get_waypoint_position()   #x,y object position, we put in at 2 m in front of the robot
         R = np.array([[np.cos(yaw),-1*(np.sin(yaw))],   
                       [np.sin(yaw),    np.cos(yaw)]])   #transformation matrix
         
