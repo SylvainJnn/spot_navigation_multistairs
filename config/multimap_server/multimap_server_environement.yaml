@@ -1,0 +1,28 @@
+stage1_maps:
+  global_frame: stage1
+  maps_package: spot_navigation_multistairs
+  maps:
+    map1: maps/map.yaml
+    map2: maps/multimap_server/maze_map.yaml
+
+stage2_maps:
+  global_frame: stage2
+  maps_package: spot_navigation_multistairs
+  maps:
+    #map21: maps/maze_partial.yaml
+    #map22: maps/maze_map.yaml
+
+
+stage3_maps:
+  global_frame: stage3
+  maps_package: multimap_server
+  maps:
+    #map3: maps/floor_0/localization.yaml
+
+
+#ns
+  #??
+  #which package
+  #maps list
+    #map number 1: path to .yaml file
+    #map number 2: ...
