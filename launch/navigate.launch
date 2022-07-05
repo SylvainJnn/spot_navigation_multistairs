@@ -1,0 +1,41 @@
+<launch>
+    <arg name="robot_name" default="/"/>
+    <arg name="rviz"       default="false"/>
+
+    <arg if="$(eval arg('robot_name') == '/')"  name="frame_prefix" value="" />
+    <arg unless="$(eval arg('robot_name') == '/')" name="frame_prefix" value="$(arg robot_name)/" />
+
+    <group ns="$(arg robot_name)">
+
+        <!-- Merge point clouds -->
+        <include file="$(find navigation_2d_spot)/launch/merge_point_clouds.launch" >
+        </include>
+        
+        <!-- Map server -->
+        <arg name="map_file" default="$(find navigation_2d_spot)/maps/map.yaml"/>
+        <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)" >
+            <param name="frame_id" value="$(arg frame_prefix)map" />
+        </node>
+
+        <!-- Octomap map -->
+        <include file="$(find navigation_2d_spot)/launch/octomap_map.launch">
+        </include>
+        
+
+        <!-- AMCL used for localization -->
+        <include file="$(find navigation_2d_spot)/launch/include/amcl.launch">
+            <arg name="frame_prefix" value="$(arg frame_prefix)"/>
+        </include>
+
+         <!-- Calls navigation stack packages -->
+        <include file="$(find navigation_2d_spot)/launch/include/move_base.launch">
+            <arg name="frame_prefix" value="$(arg frame_prefix)"/>
+            <arg name="robot_name"   value="$(arg robot_name)"/>
+        </include>
+
+
+        <node if="$(arg rviz)" name="rviz" pkg="rviz" type="rviz"
+            args="-d $(find champ_navigation)/rviz/navigate.rviz -f $(arg frame_prefix)projected_map"
+            output="screen"/>
+    </group>
+</launch>

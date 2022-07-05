@@ -4,14 +4,14 @@
     <arg name="map_file" default="$(find navigation_2d_spot)/maps/map.yaml"/>
 	<!--<arg name="map_file" default="$(find navigation_2d_spot)/maps/robotarium/robotarium_16_06.yaml"/> -->
     <!-- Launch navigation -->
-    <include file="$(find navigation_2d_spot)/launch/navigate.launch" >
+    <include file="$(find spot_navigation_multistairs)/launch/navigate.launch" >
+        <arg name="map_file" value="$(arg map_file)" />
     </include>
     
 
     <!-- do need this (knowladge base)-->
     <include file="$(find rosplan_interface_mapping)/launch/rosplan_roadmap_server.launch" >
         <param name="wp_namespace" value="rosplan_demo_waypoints" />
-
     </include>
  
     <!-- upload waypoints (dictionary, id:coordinates) to param server from yaml file -->
