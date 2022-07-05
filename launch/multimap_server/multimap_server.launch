@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-	<arg name="map_file" default="$(find multimap_server)/config/my_env.yaml"/>
+	<arg name="map_file" default="$(find spot_navigation_multistairs)/config/multimap_server/multimap_server_environement.yaml"/>
 
 	<!-- Run the map server -->
 	<node name="multimap_server" pkg="multimap_server" type="multimap_server" args="$(arg map_file)">
