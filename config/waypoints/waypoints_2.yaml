@@ -6,4 +6,4 @@ rosplan_demo_waypoints:
 rosplan_waypoints_goal_tolerance:
     home: [0.01, 3.62]
     wp11: [0.01, 3.62]
-    wp21: [0.01, 3.62]
+    wp12: [0.01, 3.62]
