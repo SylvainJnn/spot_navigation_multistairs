@@ -11,7 +11,7 @@
 
     <!-- do need this (knowladge base)-->
     <include file="$(find rosplan_interface_mapping)/launch/rosplan_roadmap_server.launch" >
-        <param name="wp_namespace" value="rosplan_demo_waypoints" />
+        <arg name="use_static_map" value="true" />
     </include>
  
     <!-- upload waypoints (dictionary, id:coordinates) to param server from yaml file -->
