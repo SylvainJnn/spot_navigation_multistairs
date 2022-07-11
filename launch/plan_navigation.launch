@@ -7,7 +7,7 @@
     <include file="$(find spot_navigation_multistairs)/launch/navigate.launch" >
         <param name="map_file" value="$(arg map_file)" />
     </include>
-    
+        
 
     <!-- do need this (knowladge base)-->
     <include file="$(find rosplan_interface_mapping)/launch/rosplan_roadmap_server.launch" >
