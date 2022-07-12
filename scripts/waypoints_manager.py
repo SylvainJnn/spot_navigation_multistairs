@@ -21,10 +21,11 @@ import numpy as np
 #this class exists to manage the waypoints: add new waypoints while moving 
 class waypoints_manager:
 
-    def __init__(self, new_nb):
+    def __init__(self, new_nb, waypoint_file):
         rospy.init_node('waypoints_manager_node')
         self.waypoint_counter = 0       #count the number of waypoints added
         self.nb = new_nb
+        self.waypoint_file = waypoint_file #waypoints file, when writting in the yaml file, it needs to know which file to write in 
 
     def get_yaw_from_pose(self, pose):#get yaw's robot from pose from tf lsitener
         (roll, pitch, yaw) = tf.transformations.euler_from_quaternion(pose[1])
@@ -120,7 +121,7 @@ class waypoints_manager:
         new_waypoint_name = "wp" + str(self.nb)                         #give the waypoint name 
  
         self.create_a_new_waypoint(pose, new_waypoint_name)             #create the waypoint ins Rosplan
-        yaml_manager.add_waypoint_to_yaml_file(pose, new_waypoint_name)#add the waypoint in yaml file
+        yaml_manager.add_waypoint_to_yaml_file(pose, new_waypoint_name, self.waypoint_file)#add the waypoint in yaml file
         #load the new waypoint to connect it : load_edges.bash #right now it deleteds the new home because it is not written in the yaml file // call this also when create new home ? // or get rd of home ? 
         self.waypoint_counter = self.waypoint_counter + 1                                      #increment the varile
 
@@ -131,6 +132,7 @@ class waypoints_manager:
 if __name__ == '__main__':
     #rospy.init_node('test_node__waypoints_create')
     print("start creating")
-    new_wp = waypoints_manager("G")#take off this -> hard coded 
+    waypoint_file = "" #"/root/catkin_ws/src/spot_navigation_multistairs/config/waypoints_test.yaml"  OR just: "staticpath always the same" + "waypoints_test" + ".yaml"
+    new_wp = waypoints_manager("G", waypoint_file)#take off this -> hard coded 
     print("creating")
     new_wp.create_a_new_waypoint_robot_position()
