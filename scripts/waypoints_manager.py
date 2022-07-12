@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from textwrap import indent
 import rospy
 import rosservice
 
@@ -25,20 +26,28 @@ import numpy as np
 #this class exists to manage the waypoints: add new waypoints while moving 
 class waypoints_manager:
 
-    def __init__(self, new_nb, waypoint_file):
+    def __init__(self, new_nb, waypoint_file):#init
         rospy.init_node('waypoints_manager_node')
         self.waypoint_counter = 0       #count the number of waypoints added
         self.nb = new_nb
         self.waypoint_file = waypoint_file #waypoints file, when writting in the yaml file, it needs to know which file to write in 
         self.scan_subscriber = rospy.Subscriber("/scan", LaserScan ,self.laser_callback)
-        self.scan_ranges = []
+        self.scan = LaserScan()
 
-    def self(self, scan_msg):#/scan callback
-        self.scan_ranges = scan_msg.ranges
+    # ------------- callback -------------
+    def laser_callback(self, scan_msg):#/scan callback
+        self.scan = scan_msg
 
+    # ------------- useful fucntions to get a specific data -------------
     def get_yaw_from_pose(self, pose):#get yaw's robot from pose from tf lsitener
         (roll, pitch, yaw) = tf.transformations.euler_from_quaternion(pose[1])
         return(yaw)
+
+    def get_index(self, angle):#get the index scan.ranges
+        #angle_min = -pi and angle_max = +pi --> f(-pi) = 0; f(pi)=size; f(0)=s/2; f(pi/2)=3/4*size --> f(x)=size/2(x/pi + 1) 
+        nb_elements = len(self.scan.ranges) - 1 #number of element in scan.ranges
+        scan_index = (nb_elements/2) * ((angle/(np.pi)) +1)
+        return(scan_index)
 
     def get_current_robot_pose_from_tf_listener(self):#from main function in replan.py #it take the robot pose form tf listener and return it 
         print("get a poser from tf listener")
@@ -51,21 +60,32 @@ class waypoints_manager:
             print('Fail')
             exit()
 
+    # ------------- waypoint positions in robot frame -------------
     #scan goes from 0 to 896, angle_min=-pi angle_max=+pi-> I assume it is based on trigonometric circle so --> data[0] = pi / data[size/2] = 0pi / data[size*3/4] = pi/2
-    def get_waypoint_position_in_front_of(self): #get waypoints position in robot's frame
-        # size = len(self.scan_ranges)
-        # x = self.scan_ranges[int(size*3/4)] #x - 0.5 if x positive otherwise x + 0.5
+    def get_waypoint_position_in_front_of(self): #get waypoints position in robot frame
+        # size = len(self.scan_ranges.ranges)
+        # x = self.scan_ranges.ranges[int(size*3/4)] #x - 0.5 if x positive otherwise x + 0.5
         # waypoint_position = np.array([float(x), 0.0])
         
         waypoint_position = np.array([2.0,0.0])   #x,y object position, we put in at 2 m in front of the robot
         return(waypoint_position) #for the moment just return an object 2m in front of the robot
 
-    def get_waypoint_position(self, which): #get waypoints position in robot's frame
-        waypoint_position = np.array([2.0,0.0])   
+
+    def get_waypoint_position_around(self, angle, scan_index): #get waypoints position in robot frame
+        #angle is from -pi tp +pi -> -pi is 0 and +pi is len(self.scan_ranges)-1
+        r = self.scan[scan_index]
+
+        if(r > 10):#add limite
+            r =10
+
+        Xobject = r * np.cos(angle)
+        Yobject = r * np.sin(angle)
+        #if not working check if these variables are float
+        waypoint_position = np.array([Xobject,Yobject], dtype=float)   
         return(waypoint_position) 
 
-
-    def get_waypoint_position(self, waypoint_position_robot):
+    # ------------- waypoint positions in word frame -------------
+    def get_waypoint_position(self, waypoint_position_robot):#get waypoint position in world frame
         robot_pose = self.get_current_robot_pose_from_tf_listener()#get robot pose
         waypoint_pose = robot_pose                                 #for after we need the same format as robot_pose from tf.lsitener, but x and y are going to be changed
         
@@ -87,14 +107,20 @@ class waypoints_manager:
 
         return(waypoint_pose)
 
+    # ------------- get pose functions  -------------
     def get_pose_in_font_of(self):
         waypoint_position_robot = self.get_waypoint_position_in_front_of()   #x,y object position, we put in at 2 m in front of the robot
-        self.get_waypoint_position(waypoint_position_robot)
+        waypoint_pose = self.get_waypoint_position(waypoint_position_robot)
+        return(waypoint_pose)
     
-    def get_pose_around(self, n):#n repre
-        waypoint_position_robot = self.get_waypoint_position(yo)
-        self.get_waypoint_position(waypoint_position_robot)
+    def get_pose_around(self, angle):#n repre
+        scan_index = self.get_index(angle)
+        waypoint_position_robot = self.get_waypoint_position_around(angle, scan_index)#get pose of the waypoint inf robot frame
+        waypoint_pose = self.get_waypoint_position(waypoint_position_robot)
+        return(waypoint_pose)
 
+
+    # ------------- Service callers -------------
     def create_waypoint(self, pose, pose_name):# setPose function from replan.py #//later do not tkae robot current pose but a position the robot see !
         # New waypoint
         waypoint = AddWaypointRequest()#what is that object ??????????,
@@ -127,6 +153,7 @@ class waypoints_manager:
 
         None
 
+    # ------------- create waypoints ------------- ## CHANGE THAT, it is 3 times the same dunctions with only one line different
     def create_a_new_waypoint_robot_position(self):  #create a new waypoint on robot current position
         rospy.wait_for_service('/rosplan_roadmap_server/add_waypoint')  #wait for the service to be availible before adding a new waypoint
         pose = self.get_current_robot_pose_from_tf_listener()           #get robot pose
@@ -136,7 +163,7 @@ class waypoints_manager:
         new_waypoint_name = "wp" + str(self.nb)                         #give the waypoint name 
 
         self.create_waypoint(pose, new_waypoint_name)             #create the waypoint ins Rosplan
-        yaml_manager.add_waypoint_to_yaml_file(pose, new_waypoint_name)#add the waypoint in yaml file
+        yaml_manager.add_waypoint_to_yaml_file(pose, new_waypoint_name, self.waypoint_file)#add the waypoint in yaml file
         #load the new waypoint to connect it : load_edges.bash #right now it deleteds the new home because it is not written in the yaml file // call this also when create new home ? // or get rd of home ? 
         self.waypoint_counter = self.waypoint_counter + 1                                      #increment the varile
 
@@ -146,14 +173,22 @@ class waypoints_manager:
 
         new_waypoint_name = "wp" + str(self.nb)                         #give the waypoint name 
  
-        self.create_a_new_waypoint(pose, new_waypoint_name)             #create the waypoint ins Rosplan
+        self.create_waypoint(pose, new_waypoint_name)             #create the waypoint in Rosplan
         yaml_manager.add_waypoint_to_yaml_file(pose, new_waypoint_name, self.waypoint_file)#add the waypoint in yaml file
         #load the new waypoint to connect it : load_edges.bash #right now it deleteds the new home because it is not written in the yaml file // call this also when create new home ? // or get rd of home ? 
         self.waypoint_counter = self.waypoint_counter + 1                                      #increment the varile
 
     def create_waypoints_around(self):
-        self.counter = 0 #we are going to do this way but to be honeest I don't like
-        create_a_new_waypoint_in_front_of()
+        rospy.wait_for_service('/rosplan_roadmap_server/add_waypoint')  #wait for the service to be availible before adding a new waypoint           
+        pose = self.get_pose_around()
+
+        new_waypoint_name = "wp" + str(self.nb)                         #give the waypoint name 
+ 
+        self.create_waypoint(pose, new_waypoint_name)             #create the waypoint ins Rosplan
+        yaml_manager.add_waypoint_to_yaml_file(pose, new_waypoint_name, self.waypoint_file)#add the waypoint in yaml file
+        #load the new waypoint to connect it : load_edges.bash #right now it deleteds the new home because it is not written in the yaml file // call this also when create new home ? // or get rd of home ? 
+        self.waypoint_counter = self.waypoint_counter + 1                                      #increment the varile
+
 
     def create_waypoint_stairs(self):
         None
