@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-from textwrap import indent
 import rospy
 import rosservice
 
@@ -46,7 +45,7 @@ class waypoints_manager:
     def get_index(self, angle):#get the index scan.ranges
         #angle_min = -pi and angle_max = +pi --> f(-pi) = 0; f(pi)=size; f(0)=s/2; f(pi/2)=3/4*size --> f(x)=size/2(x/pi + 1) 
         nb_elements = len(self.scan.ranges) - 1 #number of element in scan.ranges
-        scan_index = (nb_elements/2) * ((angle/(np.pi)) +1)
+        scan_index = int((nb_elements/2) * ((angle/(np.pi)) +1)) #cast as int 
         return(scan_index)
 
     def get_current_robot_pose_from_tf_listener(self):#from main function in replan.py #it take the robot pose form tf listener and return it 
