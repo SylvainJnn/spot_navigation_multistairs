@@ -32,6 +32,9 @@ class waypoints_manager:
         self.waypoint_file = waypoint_file #waypoints file, when writting in the yaml file, it needs to know which file to write in 
         self.scan_subscriber = rospy.Subscriber("/scan", LaserScan ,self.laser_callback)
         self.scan = LaserScan()
+        self.main()
+
+
 
     # ------------- callback -------------
     def laser_callback(self, scan_msg):#/scan callback
@@ -177,9 +180,9 @@ class waypoints_manager:
         #load the new waypoint to connect it : load_edges.bash #right now it deleteds the new home because it is not written in the yaml file // call this also when create new home ? // or get rd of home ? 
         self.waypoint_counter = self.waypoint_counter + 1                                      #increment the varile
 
-    def create_waypoints_around(self):
+    def create_waypoints_around(self, angle):
         rospy.wait_for_service('/rosplan_roadmap_server/add_waypoint')  #wait for the service to be availible before adding a new waypoint           
-        pose = self.get_pose_around()
+        pose = self.get_pose_around(angle)
 
         new_waypoint_name = "wp" + str(self.nb)                         #give the waypoint name 
  
@@ -192,12 +195,25 @@ class waypoints_manager:
     def create_waypoint_stairs(self):
         None
 
+    def main(self):
+        print("creating 3 waypoints around")
+        print("angle 0")
+        self.create_waypoints_around(0)
+        self.nb = str(int(self.nb)+1)
+        print("angle pi/2")
+        self.create_waypoints_around(np.pi/2)
+        self.nb = str(int(self.nb)+1)
+        print("angle pi")
+        self.create_waypoints_around(np.pi)
+        self.nb = str(int(self.nb)+1)
 
 if __name__ == '__main__':
     #rospy.init_node('test_node__waypoints_create')
     print("start creating")
-    waypoint_file = "" #"/root/catkin_ws/src/spot_navigation_multistairs/config/waypoints_test.yaml"  OR just: "staticpath always the same" + "waypoints_test" + ".yaml"
+    static_path = "/root/catkin_ws/src/spot_navigation_multistairs/config/waypoints_test.yaml" 
+    waypoint_file = static_path + "waypoints_test_autonomus" + ".yaml"#"/root/catkin_ws/src/spot_navigation_multistairs/config/waypoints_test.yaml"  OR just: "staticpath always the same" + "waypoints_test" + ".yaml"
+    
     #name = sys.argv[0]
-    new_wp = waypoints_manager("G", waypoint_file)#take off this -> hard coded #change 
-    print("creating")
-    new_wp.create_a_new_waypoint_robot_position()
+    new_wp = waypoints_manager("10", waypoint_file)#take off this -> hard coded #change 
+    #print("creating")
+    #new_wp.create_a_new_waypoint_robot_position()
