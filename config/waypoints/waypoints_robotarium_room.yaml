@@ -1,9 +1,17 @@
 rosplan_demo_waypoints:
     waypoint_frameid: map
     home: [0.0, 0.0, 0.0]
-    wp20: [1.0, 1.0, 0.0]
-    wp21: [1.5, 1.0, 0.0]
-rosplan_waypoints_goal_tolerance:
+    wp10: [0.0, 0.0, 0.0]
+    wp11: [-2.0, 1.0, 0.0]
+    wp12: [-3.5, 0.0, 0.0]
+    wp13: [0.0, 5.0, 0.0]
+    wp14: [-1.0, 6.5, 2.094] #DOOR #pi*2/3
+    wp15: [3.0, 7.0, 0.0]
+rosplan_waypoints_goal_tolerance: # xy_goal_tolerance , yaw_goal_tolerance 
     home: [0.01, 3.62]
-    wp20: [0.01, 3.62]
-    wp21: [0.01, 3.62]
+    wp10: [0.01, 3.62]
+    wp11: [0.01, 3.62]
+    wp12: [0.01, 3.62]
+    wp13: [0.01, 3.62]
+    wp14: [0.01, 0.524] #pi/6
+    wp15: [0.01, 3.62]
