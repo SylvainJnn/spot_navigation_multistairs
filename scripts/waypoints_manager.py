@@ -38,7 +38,9 @@ class waypoints_manager:
 
     # ------------- callback -------------
     def laser_callback(self, scan_msg):#/scan callback
+        #rospy.wait_for_message("/scan", LaserScan)
         self.scan = scan_msg
+        #print("OUI", self.scan.ranges[0])
 
     # ------------- useful fucntions to get a specific data -------------
     def get_yaw_from_pose(self, pose):#get yaw's robot from pose from tf lsitener
@@ -75,7 +77,7 @@ class waypoints_manager:
 
     def get_waypoint_position_around(self, angle, scan_index): #get waypoints position in robot frame
         #angle is from -pi tp +pi -> -pi is 0 and +pi is len(self.scan_ranges)-1
-        r = self.scan[scan_index]
+        r = self.scan.ranges[scan_index]
 
         if(r > 10):#add limite
             r =10
@@ -116,6 +118,9 @@ class waypoints_manager:
         return(waypoint_pose)
     
     def get_pose_around(self, angle):#n repre
+        print("WAIT")
+        rospy.wait_for_message("/scan", LaserScan)
+        print("NO MORE WAITING")
         scan_index = self.get_index(angle)
         waypoint_position_robot = self.get_waypoint_position_around(angle, scan_index)#get pose of the waypoint inf robot frame
         waypoint_pose = self.get_waypoint_position(waypoint_position_robot)
@@ -196,6 +201,11 @@ class waypoints_manager:
         None
 
     def main(self):
+        self.nb = "100"
+        self.create_a_new_waypoint_in_front_of()
+
+
+    def main2(self):
         print("creating 3 waypoints around")
         print("angle 0")
         self.create_waypoints_around(0)
@@ -210,7 +220,7 @@ class waypoints_manager:
 if __name__ == '__main__':
     #rospy.init_node('test_node__waypoints_create')
     print("start creating")
-    static_path = "/root/catkin_ws/src/spot_navigation_multistairs/config/waypoints_test.yaml" 
+    static_path = "/root/catkin_ws/src/spot_navigation_multistairs/config/waypoints/" 
     waypoint_file = static_path + "waypoints_test_autonomus" + ".yaml"#"/root/catkin_ws/src/spot_navigation_multistairs/config/waypoints_test.yaml"  OR just: "staticpath always the same" + "waypoints_test" + ".yaml"
     
     #name = sys.argv[0]

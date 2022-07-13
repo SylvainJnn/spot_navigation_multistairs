@@ -1,0 +1,7 @@
+rosplan_demo_waypoints:
+    waypoint_frameid: map
+    home: [0.0, 0.0, 0.0]
+    wp100: [1.5876617463763698, 7.44322359299294, 0.0008227101726063779]
+rosplan_waypoints_goal_tolerance:
+    home: [0.01, 3.62]
+    wp100: [0.01, 3.62]

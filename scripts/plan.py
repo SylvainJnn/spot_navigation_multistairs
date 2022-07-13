@@ -18,7 +18,7 @@ from diagnostic_msgs.msg import KeyValue
 from rosplan_interface_mapping.srv import *
 from rosplan_dispatch_msgs.srv import *
 
-from std_msgs.msg import String, StringResponse
+#from std_msgs.msg import String, StringResponse
 
 
 #call the service in replan to create the path and make the robot move // need to update that because it does not work with a whole path but only with the last one ???
@@ -102,6 +102,7 @@ if __name__=="__main__":
     # create_new_waypoint(pose, "wp3") #adding waypoint
     # """
     path = rospy.get_param("path")
+    print(path)
     create_plan(path) 
     print("this is path\n",path)
 

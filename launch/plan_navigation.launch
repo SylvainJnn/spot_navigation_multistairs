@@ -15,7 +15,7 @@
     </include>
  
     <!-- upload waypoints (dictionary, id:coordinates) to param server from yaml file -->
-    <rosparam command="load" file="$(find spot_navigation_multistairs)/config/waypoints_1.yaml"/><!-- I would like to change this with the one in my package but i am affraid other packages looks for waypoints in navigation_2d packages -->
+    <rosparam command="load" file="$(find spot_navigation_multistairs)/config/waypoints/waypoints_test_autonomus.yaml"/><!-- I would like to change this with the one in my package but i am affraid other packages looks for waypoints in navigation_2d packages -->
 
     <!-- ROSPlan -->
     <include file="$(find rosplan_planning_system)/launch/interfaced_planning_system.launch" >
