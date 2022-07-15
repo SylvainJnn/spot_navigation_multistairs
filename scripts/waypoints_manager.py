@@ -32,7 +32,7 @@ class waypoints_manager:
         self.waypoint_file = waypoint_file #waypoints file, when writting in the yaml file, it needs to know which file to write in 
         self.scan_subscriber = rospy.Subscriber("/scan", LaserScan ,self.laser_callback)
         self.scan = LaserScan()
-        self.main()
+        self.main2()
 
 
 
@@ -208,6 +208,7 @@ class waypoints_manager:
     def main2(self):
         print("creating 3 waypoints around")
         print("angle 0")
+        self.nb = str(int(self.nb)+1)
         self.create_waypoints_around(0)
         self.nb = str(int(self.nb)+1)
         print("angle pi/2")
