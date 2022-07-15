@@ -32,7 +32,7 @@ class waypoints_manager:
         self.waypoint_file = waypoint_file #waypoints file, when writting in the yaml file, it needs to know which file to write in 
         self.scan_subscriber = rospy.Subscriber("/scan", LaserScan ,self.laser_callback)
         self.scan = LaserScan()
-        self.main2()
+        self.main()
 
 
 
@@ -71,7 +71,7 @@ class waypoints_manager:
         # x = self.scan_ranges.ranges[int(size*3/4)] #x - 0.5 if x positive otherwise x + 0.5
         # waypoint_position = np.array([float(x), 0.0])
         
-        waypoint_position = np.array([2.0,0.0])   #x,y object position, we put in at 2 m in front of the robot
+        waypoint_position = np.array([0.5,0.0])   #x,y object position, we put in at 2 m in front of the robot
         return(waypoint_position) #for the moment just return an object 2m in front of the robot
 
 
@@ -201,7 +201,7 @@ class waypoints_manager:
         None
 
     def main(self):
-        self.nb = "100"
+        #self.nb = "100"
         self.create_a_new_waypoint_in_front_of()
 
 
@@ -225,6 +225,6 @@ if __name__ == '__main__':
     waypoint_file = static_path + "waypoints_test_autonomus" + ".yaml"#"/root/catkin_ws/src/spot_navigation_multistairs/config/waypoints_test.yaml"  OR just: "staticpath always the same" + "waypoints_test" + ".yaml"
     
     #name = sys.argv[0]
-    new_wp = waypoints_manager("10", waypoint_file)#take off this -> hard coded #change 
+    new_wp = waypoints_manager("13", waypoint_file)#take off this -> hard coded #change 
     #print("creating")
     #new_wp.create_a_new_waypoint_robot_position()

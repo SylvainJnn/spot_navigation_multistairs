@@ -258,7 +258,7 @@ def node_init():
         exit()
     # Set this pose as new home waypoint
     name = "home" #for the moment keep this one // the 
-    setPose(pose, name)
+    #setPose(pose, name)
     #yaml_manager.add_waypoint_to_yaml_file(pose, name, ADD file --> create a rosparam of the current waypoints_file used ? )
 
     s = rospy.Service('replan_using_a_new_plan', CreatePath, newPlan)
