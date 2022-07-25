@@ -1,0 +1,19 @@
+local_costmap:
+  global_frame: odom #map #odom #map #odom #map #vision #odom #map #vision #map #vision #odom #map #odom
+  robot_base_frame: base_link 
+  update_frequency: 5.0 # 
+  publish_frequency: 2.0 
+
+  static_map: false
+  rolling_window: true
+  width: 2.5 #4.5 
+  height: 2.5 #4.5
+  resolution: 0.07    
+
+  plugins:
+    - {name: inflation_layer,     type: "costmap_2d::InflationLayer"}
+    - {name: 2d_obstacles_layer,  type: "costmap_2d::ObstacleLayer"}
+    - {name: 3d_obstacles_layer,  type: "costmap_2d::VoxelLayer"}
+
+  inflation_layer: {cost_scaling_factor: 6.0 , enabled: true, inflation_radius: 0.4 }
+  

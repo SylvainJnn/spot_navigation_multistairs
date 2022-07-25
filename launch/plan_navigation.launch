@@ -11,7 +11,7 @@
 
     <!-- do need this (knowladge base)-->
     <include file="$(find rosplan_interface_mapping)/launch/rosplan_roadmap_server.launch" >
-        <arg name="use_static_map" value="true" />
+        <arg name="use_static_map" value="false" />
     </include>
  
     <!-- upload waypoints (dictionary, id:coordinates) to param server from yaml file -->

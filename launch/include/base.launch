@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- default args 
+    <arg name="joystick_connected" default="true" />
+    <arg name="joy_id" default="0"/>
+    -->
+
+    <include file="$(find spot_driver)/launch/driver.launch">
+        <arg name="use_joy" default="true"/>
+    </include>
+
+    <!--
+    <group if="$(arg joystick_connected)">
+        <node pkg="joy" type="joy_node" name="joystick">
+            <param name="dev" value="/dev/input/js$(arg joy_id)"/>
+            <param name="autorepeat_rate" value="30"/>
+        </node>
+    </group>
+
+
+    <node name="interface_joy" pkg="spot_joy" type="interface_joy.py" output="screen"/>
+
+    -->
+    <!-- Rotate the image of the front camera -->
+    <!-- <node pkg="image_rotate" name="image_rotate" type="image_rotate" args="image:=/spot/camera/frontleft/image rotatedmage:=/spot/camera/frontleft/image_rotated __name:=image_rotater"/> -->
+    <!-- Start the lidar driver -->
+    <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" />
+
+    <node name="velodyne_transform_publisher" pkg="tf" type="static_transform_publisher" args="-0.13 0 0.152 0 0 0 /front_rail /velodyne 100" /> 
+
+
+</launch>

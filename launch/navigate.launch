@@ -11,7 +11,7 @@
         <include file="$(find navigation_2d_spot)/launch/merge_point_clouds.launch" >
         </include>
         
-        <!-- Map server -->
+        <!-- Map server SOLVE THAT SOON-->
         <arg name="map_file" default="$(find navigation_2d_spot)/maps/map.yaml"/>
         <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)" >
             <param name="frame_id" value="$(arg frame_prefix)map" />
@@ -23,12 +23,12 @@
         
 
         <!-- AMCL used for localization -->
-        <include file="$(find navigation_2d_spot)/launch/include/amcl.launch">
+        <include file="$(find spot_navigation_multistairs)/launch/include/amcl.launch">
             <arg name="frame_prefix" value="$(arg frame_prefix)"/>
         </include>
 
          <!-- Calls navigation stack packages -->
-        <include file="$(find navigation_2d_spot)/launch/include/move_base.launch">
+        <include file="$(find spot_navigation_multistairs)/launch/include/move_base.launch">
             <arg name="frame_prefix" value="$(arg frame_prefix)"/>
             <arg name="robot_name"   value="$(arg robot_name)"/>
         </include>
