@@ -38,6 +38,6 @@
         <param name="lasamplestep" value="0.005"/>
         <param name="transform_publish_period" value="0.1"/>
 	<!--i add a comment later -->
-	<remap from="scan" to="hokuyo/scan">
+	<remap from="scan" to="hokuyo/scan"/>
     </node>
 </launch>

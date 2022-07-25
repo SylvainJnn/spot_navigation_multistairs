@@ -13,13 +13,11 @@
 
         <rosparam file="$(find spot_navigation_multistairs)/config/move_base_params.yaml" command="load" />
 
-<!--
-<rosparam file="$(find navigation_2d_spot)/config/move_base_params.yaml" command="load" />
--->
+
         <!-- explicitly define frame ids for movebase -->
         <param name="global_costmap/global_frame"                   value="$(arg frame_prefix)map"/>
         <param name="global_costmap/robot_base_frame"               value="$(arg frame_prefix)base_link"/>
-        <param name="global_costmap/2d_obstacles_layer/scan/topic"  value="$(arg robot_name)scan"/>
+        <param name="global_costmap/2d_obstacles_layer/scan/topic"  value="$(arg robot_name)hokuyo/scan"/>
         <param name="global_costmap/3d_obstacles_layer/depth/topic" value="$(arg robot_name)combined_cloud"/>
         
         <param name="local_costmap/global_frame"                    value="$(arg frame_prefix)map"/>
@@ -31,6 +29,7 @@
 
 	<remap from="odom" to="spot/odometry" />
 	<remap from="cmd_vel" to="spot/cmd_vel" />
-	<!--same for scan ?-->
+	<!--same for scan ?
+	<remap from="scan" to="hokuyo/scan"/>-->
     </node>
 </launch>
