@@ -1,0 +1,7 @@
+<launch>
+
+    <arg name="mode" default="normal"/>
+    <node pkg="spot_navigation_multistairs" type="stairs_manager.py" name="stairs_manager" output="screen"/>
+    <param name="mode" value="$(arg path)" />
+
+</launch>
