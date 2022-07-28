@@ -101,7 +101,7 @@ if __name__=="__main__":
     # pose[0][1] = 1   
     # create_new_waypoint(pose, "wp3") #adding waypoint
     # """
-    path ="wp11"#= rospy.get_param("path")
+    path ="wp12"#= rospy.get_param("path")
     print(path)
     create_plan(path) 
     #path = "wp10"

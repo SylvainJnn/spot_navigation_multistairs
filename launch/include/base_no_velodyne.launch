@@ -11,8 +11,7 @@
     </include>
 
     <!-- lidar but not velodyne-->
-    <include file="$(find urg_node)/launch/urg_lidar_spot.launch"/>
-	
+    <include file="$(find urg_node)/launch/urg_lidar_spot.launch"/>	
 
     <!--
     <group if="$(arg joystick_connected)">

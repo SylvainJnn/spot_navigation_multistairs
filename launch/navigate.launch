@@ -8,9 +8,9 @@
     <group ns="$(arg robot_name)">
 
         <!-- Merge point clouds -->
-        <include file="$(find navigation_2d_spot)/launch/merge_point_clouds.launch" >
-        </include>
-        
+<!--        <include file="$(find navigation_2d_spot)/launch/merge_point_clouds.launch" >        
+	</include>
+-->     
         <!-- Map server SOLVE THAT SOON-->
         <arg name="map_file" default="$(find navigation_2d_spot)/maps/map.yaml"/>
         <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)" >
@@ -18,9 +18,8 @@
         </node>
 
         <!-- Octomap map -->
-        <include file="$(find navigation_2d_spot)/launch/octomap_map.launch">
-        </include>
-        
+<!--        <include file="$(find navigation_2d_spot)/launch/octomap_map.launch">        </include>
+   -->     
 
         <!-- AMCL used for localization -->
         <include file="$(find spot_navigation_multistairs)/launch/include/amcl.launch">

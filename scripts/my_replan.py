@@ -221,25 +221,25 @@ def newPlan(req):
     """
     rospy.loginfo("Replan : Service was called to visit following waypoints: %s " %(req.path))
     addInstance()
-    rospy.sleep(15)
+    #rospy.sleep(15)
     rospy.loginfo("Replan : Instance added")
     addFact()
-    rospy.sleep(15)
+    #rospy.sleep(15)
     rospy.loginfo("Replan : Fact added")
     setWaypoint(req.path)
-    rospy.sleep(15)
+    #rospy.sleep(15)
     rospy.loginfo("Replan : Path was added")
     genProb()
-    rospy.sleep(15)
+    #rospy.sleep(15)
     rospy.loginfo("Replan : Problem generated")
     plan()
-    rospy.sleep(15)
+    #rospy.sleep(15)
     rospy.loginfo("Replan : Plan found")
     parsePlan()
-    rospy.sleep(15)
+    #rospy.sleep(15)
     rospy.loginfo("Replan : Plan parsed")
     dispatch()
-    rospy.sleep(15)
+    #rospy.sleep(15)
     rospy.loginfo("Replan : Plan dispatched")
 
 
@@ -265,7 +265,7 @@ def node_init():
         exit()
     # Set this pose as new home waypoint
     name = "home" #for the moment keep this one // the 
-    #setPose(pose, name)
+    setPose(pose, name)
     #yaml_manager.add_waypoint_to_yaml_file(pose, name, ADD file --> create a rosparam of the current waypoints_file used ? )
 
     s = rospy.Service('replan_using_a_new_plan', CreatePath, newPlan)

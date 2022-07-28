@@ -1,0 +1,27 @@
+<launch>
+  <!-- Convert depth images to point cloud -->
+  <include file="$(find navigation_2d_spot)/launch/depth_to_point.launch">
+  </include>
+
+  <!-- Minimize the velodyne from XYZIRT to XYZ format-->
+  <node pkg="navigation_2d_spot" name="point_merger" type="simplified_velodyne" >
+  </node>
+
+  <!-- Merge the frontLeft, frontRight, back cameras to simplified velodyne point cloud (XYZ)-->
+  <node pkg="nodelet" type="nodelet" name="nodelet10" args="load rtabmap_ros/point_cloud_aggregator standalone_nodelet">
+    <remap from="cloud1" to="/velodyne_points_xyz"/>
+    <remap from="cloud2" to="/spot/depth/back/cloud"/> 
+    <remap from="cloud3" to="/spot/depth/right/cloud"/> 
+    <remap from="cloud4" to="/spot/depth/left/cloud"/> 
+
+    <remap from="/combined_cloud" to="/combined_cloud"/> 
+
+    <param name="queue_size "                  value="10"/>     <!-- Size of message queue for each synchronized topic. -->   
+    <param name="approx_sync"                  value="true"/>   <!-- If false, the input topics must have the same timestamp -->
+    <param name="fixed_frame_id"               value="body"/>      <!-- The fixed frame used to estimate displacement between combined clouds. Recommended if approx_sync is true. -->
+    <param name="frame_id"                     value="velodyne"/>    <!-- Frame id of the output combined cloud. If not set, same frame id as input cloud is used. -->
+    <param name="count"                        value="4"/>    <!-- Number of input topics to combine. -->
+    <param name="wait_for_transform_duration"  value="0.1"/>    <!-- Time to wait to get TF value between fixed frame and cloud frame at the stamp of the input cloud.  -->
+
+  </node>
+</launch>
