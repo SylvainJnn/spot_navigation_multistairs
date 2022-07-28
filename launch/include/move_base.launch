@@ -30,7 +30,5 @@
 
 	<remap from="odom" to="spot/odometry" />
 	<remap from="cmd_vel" to="spot/cmd_vel" />
-	<!--same for scan ?
-	<remap from="scan" to="hokuyo/scan"/>-->
     </node>
 </launch>
