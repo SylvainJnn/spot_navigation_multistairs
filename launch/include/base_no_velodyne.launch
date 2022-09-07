@@ -1,6 +1,6 @@
-<?xml version="1.0"?>
+<?xml version="1.0"?> 
 <launch>
-
+<!-- This one is for Spot swithout Velodyne  -->
     <!-- default args 
     <arg name="joystick_connected" default="true" />
     <arg name="joy_id" default="0"/>

@@ -23,7 +23,7 @@
 
     -->
     <!-- Rotate the image of the front camera -->
-    <!-- <node pkg="image_rotate" name="image_rotate" type="image_rotate" args="image:=/spot/camera/frontleft/image rotatedmage:=/spot/camera/frontleft/image_rotated __name:=image_rotater"/> -->
+    <node pkg="image_rotate" name="image_rotate" type="image_rotate" args="image:=/spot/camera/frontleft/image rotatedmage:=/spot/camera/frontleft/image_rotated __name:=image_rotater"/>    
     <!-- Start the lidar driver -->
     <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" />
 

@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+#NOT FINISHED
+#The idea was to subscribe to topic /map and then create a python script to call "Loadmap" and "SetMap" 
+
 import rospy
 import rosservice
 from nav_msgs.msg import OccupancyGrid
@@ -39,7 +42,7 @@ class change_map:
         #proably going to have an issue there
 
 
-    def change_map(self):#call change_map with the map_url
+    def change_map(self):#call LoadMap service with the map_url
         rospy.wait_for_service(self.service_name_change_map)
         try:
             load_map = rospy.ServiceProxy(self.service_name_change_map, LoadMap)
@@ -54,7 +57,7 @@ class change_map:
         self.initial_pose = PoseWithCovarianceStamped()
         None
 
-    def write_new_map(self):
+    def write_new_map(self):#create a new map object, inistialise this map the same as the current map
         self.new_map = SetMap()
         self.new_map.map = self.map
         self.new_map.initial_pose = self.initial_pose

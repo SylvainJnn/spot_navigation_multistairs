@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+# funtions that handle the yaml files caontining waypoints position
 import yaml
 
 def open_yaml(file_path):#open a yaml file
@@ -22,12 +22,12 @@ def add_waypoint_to_yaml_dictionary(waypoint_dictionary, new_wp_name, new_wp_pos
     waypoint_dictionary['rosplan_waypoints_goal_tolerance'].update({new_wp_name: [0.01, 3.62]}) #add waypoint name and goal tolerance
     return(waypoint_dictionary)
     
-def convert_to_yaml(waypoint_dictionary):   #convert the dictionary to a string // the format for ros to read it
+def convert_to_yaml(waypoint_dictionary):   #convert the dictionary format to a string // the format for ros to read it
     final_string = ""
-    for key in waypoint_dictionary:#
+    for key in waypoint_dictionary:
         final_string += key + ':'
         for value in waypoint_dictionary[key]:
-            final_string += '\n    ' + value + ': ' + str(waypoint_dictionary[key][value])#4 sapces as in the .yaml file // check if correct later
+            final_string += '\n    ' + value + ': ' + str(waypoint_dictionary[key][value])#4 sapces as in the .yaml file 
         final_string += '\n'
     return final_string
 

@@ -1,7 +1,7 @@
 <launch>
 
     <!-- ROSPlan turtlebot3 demo with ROSPlan -->
-    <arg name="map_file" default="$(find navigation_2d_spot)/maps/map.yaml"/>
+    <arg name="map_file" default="$(find navigation_2d_spot)/maps/map.yaml"/><!-- map currently still hard coded in navigation.launch -->
 	<!--<arg name="map_file" default="$(find navigation_2d_spot)/maps/robotarium/robotarium_16_06.yaml"/> -->
     <!-- Launch navigation -->
     <include file="$(find spot_navigation_multistairs)/launch/navigate.launch" >
@@ -15,9 +15,8 @@
     </include>
  
     <!-- upload waypoints (dictionary, id:coordinates) to param server from yaml file -->
-    <rosparam command="load" file="$(find spot_navigation_multistairs)/config/waypoints/waypoints_1.yaml"/><!-- I would like to change this with the one in my package but i am affraid other packages looks for waypoints in navigation_2d packages -->
-
-    <!-- ROSPlan -->
+    <rosparam command="load" file="$(find spot_navigation_multistairs)/config/waypoints/waypoints_1.yaml"/>
+    <!-- ROSPlan __ SINCE this project didn't touch ROSPLAN, everything related to ROSPlan is still in the packahe navigation_2d_spot--> 
     <include file="$(find rosplan_planning_system)/launch/interfaced_planning_system.launch" >
         <arg name="domain_path" value="$(find navigation_2d_spot)/common/domain_spot.pddl" />
         <!-- load a particular initial state into KB at startup (optional) -->

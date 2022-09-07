@@ -1,7 +1,7 @@
 <launch>
 
     <arg name="path" default="home"/>
-    <node pkg="spot_navigation_multistairs" type="plan.py" name="plan" output="screen"/>
     <param name="path" value="$(arg path)" />
-
+    <node pkg="spot_navigation_multistairs" type="plan.py" name="plan" output="screen"/>
+    
 </launch>

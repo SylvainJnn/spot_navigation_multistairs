@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+#From Karoline's package, it is the same
+
 """ Service class for planning ROSPlan waypoint path navigation. Equivalent to explore_wp.bash with additional features.
 
     - Load waypoints into parameter server

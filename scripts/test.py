@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-
+#nothing to see here
 import rospy
 from waypoints_manager import waypoints_manager
 
